@@ -1,80 +1,43 @@
-<<<<<<< HEAD
-# Nuxt Minimal Starter
+# Blog
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Blog usando Notion con Nuxt 3 y Firebase.
 
-## Setup
+## Descripción
 
-Make sure to install dependencies:
+Este es un proyecto de blog creado con Nuxt 3 y Firebase, utilizando Notion como fuente de contenido.
+
+## Configuración
+
+Asegúrate de instalar las dependencias:
 
 ```bash
 # npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## Servidor de desarrollo
 
-Start the development server on `http://localhost:3000`:
+Inicia el servidor de desarrollo en `http://localhost:3000`:
 
 ```bash
 # npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+## Producción
 
-Build the application for production:
+Compila la aplicación para producción:
 
 ```bash
 # npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Vista previa local de la compilación de producción:
 
 ```bash
 # npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-=======
-# blog
-Blog usando Notion
->>>>>>> 17e63088cdf366c42b745d68e4b54742607cea4f
+Para más información, consulta la [documentación de despliegue de Nuxt](https://nuxt.com/docs/getting-started/deployment).
