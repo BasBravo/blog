@@ -1,8 +1,8 @@
-import { initializeFirebase } from '~/utils/firebase';
+import { useFirebase } from '~/composables/useFirebase';
 
 export default defineNuxtPlugin(nuxtApp => {
     // Inicializar Firebase al arrancar la aplicación
-    const { db } = initializeFirebase();
+    const { db } = useFirebase();
 
     return {
         provide: {

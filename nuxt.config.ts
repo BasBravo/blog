@@ -10,6 +10,8 @@ export default defineNuxtConfig({
         // Las claves secretas estarán disponibles solo en el servidor
         stripeSecretKey: process.env.NUXT_STRIPE_SECRET_KEY,
         cryptoKey: process.env.NUXT_CRYPTO_KEY,
+        notionSecretKey: 'ntn_B141562676676dYESdte9gK8YFhUPgfe0TEONbhxoUF5Ta', // Secret key para la API de Notion
+        notionBlogDatabaseId: process.env.NUXT_NOTION_BLOG_DATABASE_ID || '', // ID de la base de datos de los posts
         // Las claves públicas estarán disponibles en el cliente
         public: {
             appUrl: process.env.NUXT_APP_URL,
