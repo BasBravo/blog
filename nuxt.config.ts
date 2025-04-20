@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     ssr: true,
     modules: ['@nuxt/ui'],
-    css: ['~/app/assets/css/main.css'],
+    css: ['~/assets/css/main.css', '~/assets/css/notion.css'],
 
     runtimeConfig: {
         // Las claves secretas estarán disponibles solo en el servidor

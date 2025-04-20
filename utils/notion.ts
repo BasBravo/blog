@@ -1,152 +1,65 @@
 // Eliminamos las importaciones de @notionhq/client
 // Ahora usaremos el backend propio en NUXT_FUNCTIONS_URL
 
-/**
- * Obtiene la URL base para las llamadas a la API del backend
- */
-function getApiBaseUrl() {
-    const config = useRuntimeConfig();
-    return `${config.public.functionsUrl}/api/notion` || '';
+// Helper function to map Notion colors to custom CSS classes
+export const mapColorToClass = (color: string): string => {
+    const colorMap: Record<string, string> = {
+        gray: 'notion-color-gray',
+        brown: 'notion-color-brown',
+        orange: 'notion-color-orange',
+        yellow: 'notion-color-yellow',
+        green: 'notion-color-green',
+        blue: 'notion-color-blue',
+        purple: 'notion-color-purple',
+        pink: 'notion-color-pink',
+        red: 'notion-color-red',
+        gray_background: 'notion-bg-gray',
+        brown_background: 'notion-bg-brown',
+        orange_background: 'notion-bg-orange',
+        yellow_background: 'notion-bg-yellow',
+        green_background: 'notion-bg-green',
+        blue_background: 'notion-bg-blue',
+        purple_background: 'notion-bg-purple',
+        pink_background: 'notion-bg-pink',
+        red_background: 'notion-bg-red',
+    };
+    return colorMap[color] || ''; // Return empty string for 'default' or unknown colors
+};
+
+// Function to get classes for a rich text segment
+// Define a more specific type for annotations if possible, otherwise use Record<string, any>
+interface RichTextAnnotations {
+    bold?: boolean;
+    italic?: boolean;
+    strikethrough?: boolean;
+    underline?: boolean;
+    code?: boolean;
+    color?: string;
 }
 
-/**
- * Recupera todos los posts desde el backend
- */
-export async function getPosts() {
-    try {
-        const baseUrl = getApiBaseUrl();
-        const response = await $fetch(`${baseUrl}/articles`, {
-            method: 'GET',
-        });
+export const getRichTextClasses = (annotations: RichTextAnnotations): string => {
+    let classes: string[] = [];
+    if (annotations.bold) classes.push('notion-bold');
+    if (annotations.italic) classes.push('notion-italic');
+    if (annotations.strikethrough) classes.push('notion-strikethrough');
+    if (annotations.underline) classes.push('notion-underline');
+    if (annotations.code) classes.push('notion-inline-code'); // Use custom class for inline code
 
-        if (response.success && response.articles) {
-            // Transformamos la respuesta al formato que espera el frontend
-            return response.articles.map(article => ({
-                id: article.id,
-                slug: article.title
-                    .toLowerCase()
-                    .replace(/[^\w\s]/g, '')
-                    .replace(/\s+/g, '-'),
-                title: article.title,
-                category: article.category,
-                publishDate: article.publishDate,
-                tags: article.tags,
-                author: article.author,
-                seoKeywords: article.seoKeywords,
-                featuredImageUrl: article.featuredImage,
-            }));
-        }
+    const color = annotations.color || 'default';
 
-        return [];
-    } catch (error) {
-        console.error('Error al obtener posts desde la API:', error);
-        return [];
+    // Handle text color, ensuring it's not a background color unless specifically applied to code
+    if (color !== 'default' && !color.endsWith('_background')) {
+        classes.push(mapColorToClass(color));
     }
-}
-
-/**
- * Obtiene un post específico por su slug
- */
-export async function getPostBySlug(slug: string) {
-    try {
-        const baseUrl = getApiBaseUrl();
-
-        // Primero obtenemos todos los artículos para encontrar el ID correspondiente al slug
-        const allPosts = await getPosts();
-        const post = allPosts.find(p => p.slug === slug);
-
-        if (!post || !post.id) {
-            return null;
-        }
-
-        // Una vez que tenemos el ID, obtenemos el artículo completo
-        const articleResponse = await $fetch(`${baseUrl}/articles/${post.id}`, {
-            method: 'GET',
-        });
-
-        if (!articleResponse.success || !articleResponse.article) {
-            return null;
-        }
-
-        // Obtenemos también los comentarios
-        const commentsResponse = await getPageComments(post.id);
-
-        // Devolvemos el artículo con el formato que espera el frontend
-        return {
-            id: articleResponse.article.id,
-            slug,
-            title: articleResponse.article.title,
-            category: articleResponse.article.category,
-            publishDate: articleResponse.article.publishDate,
-            tags: articleResponse.article.tags,
-            author: articleResponse.article.author,
-            seoKeywords: articleResponse.article.seoKeywords,
-            featuredImageUrl: articleResponse.article.featuredImage,
-            content: articleResponse.article.content,
-            comments: commentsResponse,
-        };
-    } catch (error) {
-        console.error(`Error al obtener post con slug ${slug} desde la API:`, error);
-        return null;
+    // Handle inline background colors (highlights)
+    if (color !== 'default' && color.endsWith('_background')) {
+        classes.push(mapColorToClass(color)); // Background class includes padding/rounding via CSS
     }
-}
 
-/**
- * Obtiene todos los bloques de contenido de una página
- */
-export async function getPageBlocks(pageId: string) {
-    try {
-        const baseUrl = getApiBaseUrl();
-        const response = await $fetch(`${baseUrl}/blocks/${pageId}`, {
-            method: 'GET',
-        });
+    return classes.join(' ');
+};
 
-        return response;
-    } catch (error) {
-        console.error(`Error al obtener bloques para la página ${pageId}:`, error);
-        return [];
-    }
-}
-
-/**
- * Obtiene los comentarios de una página
- */
-export async function getPageComments(pageId: string) {
-    try {
-        const baseUrl = getApiBaseUrl();
-        const response = await $fetch(`${baseUrl}/articles/${pageId}/comments`, {
-            method: 'GET',
-        });
-
-        if (response.success && response.comments) {
-            return response.comments;
-        }
-
-        return [];
-    } catch (error) {
-        console.error(`Error al obtener comentarios para la página ${pageId}:`, error);
-        return [];
-    }
-}
-
-/**
- * Añade un comentario a una página
- */
-export async function addCommentToPage(pageId: string, comment: string) {
-    try {
-        const baseUrl = getApiBaseUrl();
-        const response = await $fetch(`${baseUrl}/articles/${pageId}/comments`, {
-            method: 'POST',
-            body: {
-                text: comment,
-                // Si tienes un sistema de autenticación, puedes añadir el userId aquí
-                userId: 'anonymous',
-            },
-        });
-
-        return response;
-    } catch (error) {
-        console.error(`Error al añadir comentario a la página ${pageId}:`, error);
-        throw error;
-    }
-}
+// Custom class for inline code elements (used via <code> tag or annotation)
+export const codeTagClasses = 'notion-inline-code';
+// Custom class for link elements
+export const linkClasses = 'notion-link';

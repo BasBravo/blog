@@ -1,0 +1,105 @@
+@import 'tailwindcss';
+
+/* Define custom classes using @apply */
+
+/* Text Formatting */
+.notion-bold {
+    @apply font-bold;
+}
+.notion-italic {
+    @apply italic;
+}
+.notion-strikethrough {
+    @apply line-through;
+}
+.notion-underline {
+    @apply underline;
+}
+
+/* Inline Code */
+.notion-inline-code {
+    @apply bg-gray-200 text-gray-800 font-mono text-sm px-1 py-0.5 rounded;
+}
+
+/* Links */
+.notion-link {
+    @apply text-blue-600 hover:text-blue-800 underline;
+}
+
+/* Text Colors */
+.notion-color-gray {
+    @apply text-gray-500;
+}
+.notion-color-brown {
+    @apply text-yellow-800;
+} /* Using a yellow shade as brown is not default */
+.notion-color-orange {
+    @apply text-orange-500;
+}
+.notion-color-yellow {
+    @apply text-yellow-500;
+}
+.notion-color-green {
+    @apply text-green-600;
+}
+.notion-color-blue {
+    @apply text-blue-600;
+}
+.notion-color-purple {
+    @apply text-purple-600;
+}
+.notion-color-pink {
+    @apply text-pink-600;
+}
+.notion-color-red {
+    @apply text-red-600;
+}
+
+/* Background Colors (Highlights) */
+.notion-bg-gray {
+    @apply bg-gray-100;
+    /* Add padding/margin if needed for highlight effect */
+    /* @apply px-1 rounded; */
+}
+.notion-bg-brown {
+    @apply bg-yellow-100; /* Using a yellow shade as brown is not default */
+}
+.notion-bg-orange {
+    @apply bg-orange-100;
+}
+.notion-bg-yellow {
+    @apply bg-yellow-100;
+}
+.notion-bg-green {
+    @apply bg-green-100;
+}
+.notion-bg-blue {
+    @apply bg-blue-100;
+}
+.notion-bg-purple {
+    @apply bg-purple-100;
+}
+.notion-bg-pink {
+    @apply bg-pink-100;
+}
+.notion-bg-red {
+    @apply bg-red-100;
+}
+
+/* Add styles for other Notion elements as needed */
+/* Example for Headings (if not covered by prose) */
+/* h1 { @apply text-4xl font-bold mb-4; } */
+/* h2 { @apply text-3xl font-semibold mb-3; } */
+/* h3 { @apply text-2xl font-medium mb-2; } */
+
+/* Example for Blockquotes */
+/* blockquote { @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4; } */
+
+/* Example for Code Blocks */
+/* pre { @apply bg-gray-100 p-4 rounded overflow-x-auto text-sm; } */
+/* pre code { @apply bg-transparent p-0 rounded-none; } */ /* Reset inline code style inside pre */
+
+/* Example for Lists */
+/* ul { @apply list-disc list-inside my-4 pl-4; } */
+/* ol { @apply list-decimal list-inside my-4 pl-4; } */
+/* li { @apply mb-1; } */

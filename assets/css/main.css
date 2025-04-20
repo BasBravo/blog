@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@font-face {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/san-francisco/SFProDisplay-Regular.woff2') format('woff2'), url('../fonts/san-francisco/SFProDisplay-Regular.woff') format('woff');
+}
+
+@theme static {
+    --color-primary: #1d1d1b;
+    --color-secondary: #fbf9f3;
+    --color-background: #fbf9f3;
+
+    --font-sans: 'SF Pro Display', sans-serif;
+}
